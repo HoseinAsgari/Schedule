@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Schedule.Presentation/Schedule.BlazorServer/bin/Debug/net5.0/Schedule.BlazorServer.dll",
+            "program": "${workspaceFolder}/Schedule.Presentation/Schedule.BlazorUi/bin/Debug/net5.0/Schedule.BlazorUi.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Schedule.Presentation/Schedule.BlazorServer",
+            "cwd": "${workspaceFolder}/Schedule.Presentation/Schedule.BlazorUi",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
