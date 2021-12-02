@@ -1,0 +1,38 @@
+@page "/EditDefaultPlan"
+
+@inject ILocalStorageService localStorage
+@inject IPlanService _planService
+
+<h1 class="mt-3">نمایش قالب برنامه ریزی</h1>
+<hr>
+@if (showDefaultPlanViewModel != null)
+{
+    <table class="table table-stripped table-dark">
+        <tr>
+            <th>ساعت</th>
+            <th>توضیح</th>
+            <th>وضعیت انجام</th>
+        </tr>
+        <tr>
+            @foreach (var item in showDefaultPlanViewModel)
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+            }
+        </tr>
+    </table>
+}
+else
+{
+    <h1>برنامه ای برای امروز تنظیم نشده!!!</h1>
+}
+
+@code {
+    protected List<ShowDefaultPlanViewModel> showDefaultPlanViewModel { get; set; } = new List<ShowDefaultPlanViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        showDefaultPlanViewModel = await _planService.GetDefaultPlans(await localStorage.GetItemAsync<string>("userName"));
+    }
+}

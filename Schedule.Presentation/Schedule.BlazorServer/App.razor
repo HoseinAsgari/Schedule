@@ -1,0 +1,14 @@
+﻿<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div class="container">
+                <h1 class="text-danger mt-5">صفحه ای با این آدرس پیدا نشد!!!</h1>
+                <hr>
+                <p>احتمالاً آدرس را اشتباه وارد کردید. اگر از درست بودن آدرس اطمینان دارید لطفاً این خطا را به ما گزارش دهید.</p>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>

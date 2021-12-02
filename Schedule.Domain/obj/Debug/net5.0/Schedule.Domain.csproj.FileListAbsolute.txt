@@ -1,0 +1,12 @@
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\bin\Debug\net5.0\Schedule.Domain.deps.json
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\bin\Debug\net5.0\Schedule.Domain.dll
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\bin\Debug\net5.0\ref\Schedule.Domain.dll
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\bin\Debug\net5.0\Schedule.Domain.pdb
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\obj\Debug\net5.0\Schedule.Domain.csproj.AssemblyReference.cache
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\obj\Debug\net5.0\Schedule.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\obj\Debug\net5.0\Schedule.Domain.AssemblyInfoInputs.cache
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\obj\Debug\net5.0\Schedule.Domain.AssemblyInfo.cs
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\obj\Debug\net5.0\Schedule.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\obj\Debug\net5.0\Schedule.Domain.dll
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\obj\Debug\net5.0\ref\Schedule.Domain.dll
+C:\Users\Royal\source\repos\Schedule\Schedule.Domain\obj\Debug\net5.0\Schedule.Domain.pdb

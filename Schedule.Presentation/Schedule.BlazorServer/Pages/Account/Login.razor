@@ -1,0 +1,35 @@
+@page "/Login"
+
+@inject ILocalStorageService localStorage
+@inject IAccountService accountService
+
+<div class="d-flex justify-content-center">
+    <EditForm Model="@logInViewModel" OnValidSubmit="LogIn">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <b>نام کاربری:</b>
+        <InputText @bind-value="logInViewModel.UserName" />
+
+        <hr>
+
+        <b>رمز عبور:</b>
+        <InputText @bind-value="logInViewModel.Password" />
+
+        <button type="submit" class="btn btn-warning">ورود</button>
+    </EditForm>
+    <hr>
+    <a href="/SignIn" class="btn btn-primary">ثبت نام</a>
+</div>
+
+@code {
+    LogInViewModel logInViewModel = new();
+
+    async Task LogIn()
+    {
+        if (await accountService.IsPasswordAndUserNameExists(logInViewModel))
+        {
+            await localStorage.SetItemAsync<string>("userName", logInViewModel.UserName);
+        }
+    }
+}

@@ -1,0 +1,42 @@
+@page "/ShowPlan"
+@inject IPlanService _planService
+@inject ILocalStorageService localStorage
+
+<h1 class="mt-3">نمایش برنامه ریزی</h1>
+<hr>
+@if (showPlanViewModel != null)
+{
+    <table class="table table-stripped table-bordered table-dark">
+        <thead>
+
+            <tr>
+                <th>ساعت</th>
+                <th>توضیح</th>
+                <th>وضعیت انجام</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in showPlanViewModel)
+            {
+                <tr>
+                    <td>@item.Time</td>
+                    <td><input class="form-check" type="text" value="@item.Task"></td>
+                    <td><input class="form-check pointer-cursor" type="checkbox" @(item.Done?" checked":"")></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1>برنامه ای برای امروز تنظیم نشده!!!</h1>
+}
+
+@code {
+    protected List<ShowPlanViewModel> showPlanViewModel { get; set; } = new List<ShowPlanViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        showPlanViewModel = await _planService.GetPlans(await localStorage.GetItemAsync<string>("userName"));
+    }
+}

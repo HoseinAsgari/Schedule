@@ -1,0 +1,20 @@
+@page "/ShowRules"
+@inject IRulesService _rulesService
+
+@if (ShowRulesViewModel is not null)
+{
+
+}
+else
+{
+    <h1 class="mt-3">شما قانونی برای خود وضع نکردید!!!</h1>
+}
+
+@code {
+    protected List<ShowRulesViewModel> ShowRulesViewModel { get; set; }
+
+    protected async Task OnInitializedAsync()
+    {
+        ShowRulesViewModel = await _rulesService.GetRules("");
+    }
+}
