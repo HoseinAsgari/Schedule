@@ -1,5 +1,6 @@
 @page "/ShowGoals"
-@inject IGoalService _goalService
+@inject IGoalService GoalService
+@inject ILocalStorageService LocalStorageService
 
 @if (ShowGoalsViewModel is not null)
 {
@@ -11,9 +12,10 @@ else
 }
 
 @code {
-    protected List<ShowGoalsViewModel> ShowGoalsViewModel { get; set; }
+    private List<ShowGoalsViewModel> ShowGoalsViewModel { get; set; }
     protected async Task OnInitializedAsync()
     {
-        ShowGoalsViewModel = await _goalService.GetUserGoalsAsync("");
+        var userName = LocalStorageService.GetItemAsync<string>("userName");        
+        ShowGoalsViewModel = await GoalService.GetUserGoalsAsync("");
     }
 }

@@ -14,7 +14,7 @@ namespace Application.Services
             _scheduleDbContext = scheduleDbContext;
         }
 
-        public async Task<List<ShowGoalsViewModel>> GetUserGoalsAsync(string email)
+        public async Task<List<ShowGoalsViewModel>> GetUserGoalsAsync(string userName)
         {
             return null;
         }

@@ -6,6 +6,6 @@ namespace Application.Interfaces
 {
     public interface IGoalService
     {
-        Task<List<ShowGoalsViewModel>> GetUserGoalsAsync(string email);
+        Task<List<ShowGoalsViewModel>> GetUserGoalsAsync(string userName);
     }
 }

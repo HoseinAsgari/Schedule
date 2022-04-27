@@ -1,7 +1,9 @@
 @page "/"
+@inject ILocalStorageService LocalStorageService
+@inject NavigationManager NavigationManager
 
 <div class="py-100 py-auto">
-    <div class="contatiner row m-auto">
+    <div class="container row m-auto">
         <h1 class="row justify-content-center">خانه</h1>
         <hr>
         <div class="col-12 col-sm-6 col-md-4 my-3 px-3">
@@ -24,3 +26,14 @@
         </div>
     </div>
 </div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var userName = await LocalStorageService.GetItemAsync<string>("userName");
+        if (userName is null)
+        {
+            NavigationManager.NavigateTo("/LogIn");
+        }
+    }
+}
