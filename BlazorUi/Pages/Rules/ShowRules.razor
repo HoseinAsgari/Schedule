@@ -15,6 +15,6 @@ else
 
     protected async Task OnInitializedAsync()
     {
-        ShowRulesViewModel = await _rulesService.GetRules("");
+        ShowRulesViewModel = await _rulesService.GetRulesAsync("");
     }
 }

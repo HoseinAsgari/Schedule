@@ -14,6 +14,6 @@ else
     protected List<ShowRulesViewModel> editRulesViewModel { get; set; } = new List<ShowRulesViewModel>();
     protected override async Task OnInitializedAsync()
     {
-        editRulesViewModel = await _rulesService.GetRules("");
+        editRulesViewModel = await _rulesService.GetRulesAsync("");
     }
 }

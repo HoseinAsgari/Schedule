@@ -33,6 +33,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        showPlanViewModel = await _planService.GetPlans(await localStorage.GetItemAsync<string>("userName"));
+        var userName = await localStorage.GetItemAsync<string>("userName");
+        showPlanViewModel = await _planService.GetPlansAsync(userName);
     }
 }

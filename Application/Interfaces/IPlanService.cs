@@ -1,12 +1,13 @@
 using System.Threading.Tasks;
 using Application.ViewModels.Plan;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Application.Interfaces
 {
     public interface IPlanService
     {
-        Task<List<ShowPlanViewModel>> GetPlans(string userName);
-        Task<List<ShowDefaultPlanViewModel>> GetDefaultPlans(string userName);
+        Task<List<ShowPlanViewModel>> GetPlansAsync(string userName);
+        Task<List<ShowWeeklyPlanViewModel>> GetWeeklyPlansAsync(string userName);
     }
 }

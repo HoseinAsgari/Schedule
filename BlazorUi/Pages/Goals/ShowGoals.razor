@@ -14,6 +14,6 @@ else
     protected List<ShowGoalsViewModel> ShowGoalsViewModel { get; set; }
     protected async Task OnInitializedAsync()
     {
-        ShowGoalsViewModel = await _goalService.GetUserGoals("");
+        ShowGoalsViewModel = await _goalService.GetUserGoalsAsync("");
     }
 }

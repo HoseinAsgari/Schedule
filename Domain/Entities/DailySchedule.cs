@@ -5,9 +5,14 @@ namespace Domain.Entities;
 
 public class DailySchedule
 {
+    public DailySchedule()
+    {
+        ScheduleTasks = new List<ScheduleTask>();
+    }
+    
     public int Id { get; set; }
     public DateTime LastModifiedTime { get; set; }
 
     public User User { get; set; }
-    public List<ScheduleTask> ScheduleTasks { get; set; }
+    public ICollection<ScheduleTask> ScheduleTasks { get; set; }
 }

@@ -27,7 +27,7 @@ namespace BlazorUi
             services.AddRazorPages();
             services.AddServerSideBlazor();
             
-            //services.AddApplication();
+            services.AddApplication();
 
             services.AddDbContext<ScheduleDbContext>(opts =>
             {

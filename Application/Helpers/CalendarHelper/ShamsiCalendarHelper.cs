@@ -6,13 +6,13 @@ namespace Application.Helpers.CalendarHelper
 {
     public static class ShamsiCalendarHelper
     {
-        public static Task<string> ToShamsi(DateTime date)
+        public static string ToShamsi(this DateTime date)
         {
-            return Task.Run(() =>
-            {
-                var persianCalendar = new PersianCalendar();
-                return persianCalendar.GetYear(date) + "/" + persianCalendar.GetMonth(date).ToString("00") + "/" + persianCalendar.GetDayOfMonth(date).ToString("00");
-            });
+            var persianCalendar = new PersianCalendar();
+            return persianCalendar.GetYear(date) + "/"
+                + persianCalendar.GetMonth(date).ToString("00") + "/"
+                + persianCalendar.GetDayOfMonth(date).ToString("00");
+
         }
 
         public static Task<string> MiladiMonthNumToShamsiMonthName(this int miladiMonthNumber)
@@ -38,14 +38,11 @@ namespace Application.Helpers.CalendarHelper
             });
         }
 
-        public static async Task<string> ToShamsiWithTime(this DateTime date)
+        public static string ToShamsiWithTime(this DateTime date)
         {
-            string shamsiDate = await ToShamsi(date);
-            return await Task.Run(() =>
-            {
-                shamsiDate += "  " + date.Hour.ToString("00") + ":" + date.Minute.ToString("00");
-                return shamsiDate;
-            });
+            string shamsiDate = date.ToShamsi();
+            shamsiDate += "  " + date.Hour.ToString("00") + ":" + date.Minute.ToString("00");
+            return shamsiDate;
         }
     }
 }

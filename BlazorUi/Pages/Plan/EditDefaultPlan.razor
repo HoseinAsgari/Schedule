@@ -29,10 +29,11 @@ else
 }
 
 @code {
-    protected List<ShowDefaultPlanViewModel> showDefaultPlanViewModel { get; set; } = new List<ShowDefaultPlanViewModel>();
+    protected List<ShowWeeklyPlanViewModel> showDefaultPlanViewModel { get; set; } = new List<ShowWeeklyPlanViewModel>();
 
     protected override async Task OnInitializedAsync()
     {
-        showDefaultPlanViewModel = await _planService.GetDefaultPlans(await localStorage.GetItemAsync<string>("userName"));
+        var userName = await localStorage.GetItemAsync<string>("userName");
+        showDefaultPlanViewModel = await _planService.GetWeeklyPlansAsync(userName);
     }
 }
