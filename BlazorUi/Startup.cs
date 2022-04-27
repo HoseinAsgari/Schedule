@@ -7,6 +7,7 @@ using Persistence.Contexts;
 using Blazored.LocalStorage;
 using Application;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorUi
 {
@@ -25,8 +26,13 @@ namespace BlazorUi
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddApplication();
-            services.AddPersistence(Configuration);
+            
+            //services.AddApplication();
+
+            services.AddDbContext<ScheduleDbContext>(opts =>
+            {
+                opts.UseSqlServer(Configuration.GetConnectionString("ScheduleDbConnection"));
+            });
 
             services.AddBlazoredLocalStorage();
             services.AddBlazoredLocalStorage(config =>

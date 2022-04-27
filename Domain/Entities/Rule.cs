@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Domain.Entities
 {
     public class Rule
@@ -6,6 +8,6 @@ namespace Domain.Entities
         public string Text { get; set; }
         
         public User User { get; set; }
-        
+        public List<RuleDivorce> RuleDivorces { get; set; }
     }
 }

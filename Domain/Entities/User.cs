@@ -11,6 +11,8 @@ namespace Domain.Entities
         public List<Rule> Rules { get; set; }
         public List<ScheduleTask> ScheduleTasks { get; set; }
         public List<Goal> Goals { get; set; }
-        public List<DefaultSchedule> DefaultSchedules { get; set; }
+        public List<WeeklySchedule> WeeklySchedules { get; set; }
+        public List<DailySchedule> DailySchedules { get; set; }
+        public List<Note> Notes { get; set; }
     }
 }

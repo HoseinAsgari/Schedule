@@ -10,10 +10,13 @@ namespace Persistence.Contexts
 
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<DailySchedule> DailySchedules { get; set; }
         public DbSet<Goal> Goals { get; set; }
+        public DbSet<Note> Note { get; set; }
         public DbSet<Rule> Rules { get; set; }
-        public DbSet<DefaultSchedule> DefaultSchedules { get; set; }
+        public DbSet<RuleDivorce> RuleDivorces { get; set; }
         public DbSet<ScheduleTask> ScheduleTasks { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<WeeklySchedule> WeeklySchedules { get; set; }
     }
 }
