@@ -1,10 +1,10 @@
 @page "/ShowPlan"
-@inject IPlanService _planService
-@inject ILocalStorageService localStorage
+@inject IPlanService PlanService
+@inject ILocalStorageService LocalStorage
 
 <h1 class="mt-3">نمایش برنامه ریزی</h1>
 <hr>
-@if (showPlanViewModel != null)
+@if (ShowPlanViewModel != null)
 {
     <table class="table table-stripped table-bordered table-dark">
         <thead>
@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in showPlanViewModel)
+            @foreach (var item in ShowPlanViewModel)
             {
                 <tr>
                     <td>@item.Time</td>
@@ -33,11 +33,11 @@ else
 }
 
 @code {
-    protected List<ShowPlanViewModel> showPlanViewModel { get; set; } = new List<ShowPlanViewModel>();
+    private List<ShowPlanVm> ShowPlanViewModel { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        var userName = await localStorage.GetItemAsync<string>("userName");
-        showPlanViewModel = await _planService.GetPlansAsync(userName);
+        var userName = await LocalStorage.GetItemAsync<string>("userName");
+        ShowPlanViewModel = await PlanService.GetPlansAsync(userName);
     }
 }

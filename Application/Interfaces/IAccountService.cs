@@ -5,8 +5,8 @@ namespace Application.Interfaces
 {
     public interface IAccountService
     {
-        Task<bool> IsPasswordAndUserNameExists(LogInViewModel logInViewModel);
-        Task RegisterAccount(SignInViewModel signInViewModel);
+        Task<bool> IsPasswordAndUserNameExists(LogInVm logInViewModel);
+        Task RegisterAccount(SignInVm signInViewModel);
         Task<bool> IsUserExistsByUserName(string userName);
     }
 }

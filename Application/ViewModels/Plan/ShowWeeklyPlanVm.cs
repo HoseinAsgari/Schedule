@@ -1,6 +1,6 @@
 namespace Application.ViewModels.Plan
 {
-    public class ShowWeeklyPlanViewModel
+    public class ShowWeeklyPlanVm
     {
         public string PlanName { get; set; }
         public string TimeOfDay { get; set; }

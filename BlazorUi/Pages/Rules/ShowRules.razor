@@ -1,9 +1,38 @@
 @page "/ShowRules"
-@inject IRulesService _rulesService
+@inject IRulesService RulesService
+@inject ILocalStorageService LocalStorageService
 
 @if (ShowRulesViewModel is not null)
 {
-
+    <table class="table-bordered table-dark">
+        <thead>
+        <tr>
+            <td>شماره</td>
+            <td>قانون</td>
+            <td>تعداد نقص در ماه اخیر</td>
+            <td>امکانات</td>
+        </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < ShowRulesViewModel.Count; i++)
+        {
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @ShowRulesViewModel[i].Title
+                </td>
+                <td>
+                    @ShowRulesViewModel[i].DivorcesCount
+                </td>
+                <td>
+                    <a href="/Divorces/@ShowRulesViewModel[i].Id">نقض ها</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 else
 {
@@ -11,10 +40,11 @@ else
 }
 
 @code {
-    protected List<ShowRulesViewModel> ShowRulesViewModel { get; set; }
+    private List<ShowRulesVm> ShowRulesViewModel { get; set; }
 
-    protected async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        ShowRulesViewModel = await _rulesService.GetRulesAsync("");
+        var userName = await LocalStorageService.GetItemAsync<string>("userName");
+        ShowRulesViewModel = await RulesService.GetRulesAsync(userName);
     }
 }

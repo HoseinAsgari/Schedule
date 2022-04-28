@@ -2,20 +2,45 @@
 @inject IGoalService GoalService
 @inject ILocalStorageService LocalStorageService
 
-@if (ShowGoalsViewModel is not null)
+@if (ShowGoalsViewModel is not null && ShowGoalsViewModel.Count is not 0)
 {
-
+    <table>
+        <thead>
+        <tr>
+            <td>هدف</td>
+            <td>وضعیت هدف</td>
+            <td>تاریخ وضع</td>
+            <td>امکانات</td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var goal in ShowGoalsViewModel)
+        {
+            <tr>
+                <td>@goal.Title</td>
+                <td>@goal.GoalStatus</td>
+                <td>@goal.DateAdded</td>
+                <td>
+                    <button class="btn-danger bi bi-x-lg"></button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 else
 {
     <h1 class="mt-3">شما هدفی تعیین نکردید!!!</h1>
 }
+<hr/>
+<a href="/AddGoal" class="btn btn-success">اضافه کردن هدف</a>
 
 @code {
-    private List<ShowGoalsViewModel> ShowGoalsViewModel { get; set; }
-    protected async Task OnInitializedAsync()
+    private List<ShowGoalsVm> ShowGoalsViewModel { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRun)
     {
-        var userName = LocalStorageService.GetItemAsync<string>("userName");        
-        ShowGoalsViewModel = await GoalService.GetUserGoalsAsync("");
+        var userName = await LocalStorageService.GetItemAsync<string>("userName");
+        ShowGoalsViewModel = await GoalService.GetUserGoalsAsync(userName);
     }
 }

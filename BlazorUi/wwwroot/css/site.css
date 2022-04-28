@@ -52,6 +52,13 @@ body {
     padding: 15% 0 15% 0;
 }
 
-.pointer-cursor{
+.pointer-cursor {
     cursor: pointer;
+}
+
+.form-border {
+    border: #000 solid 2px;
+    border-radius: 45px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }

@@ -1,0 +1,51 @@
+@page "/AddGoal"
+@using Domain.Enums
+@inject IGoalService GoalService
+@inject ILocalStorageService LocalStorageService
+@inject NavigationManager NavigationManager
+
+<h3 class="mt-5">اضافه کردن هدف</h3>
+<hr/>
+<EditForm Model="_addGoalViewModel" OnValidSubmit="CreateGoal">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <b>هدف: </b><InputText @bind-Value="_addGoalViewModel.Title"></InputText>
+    <InputSelect @bind-Value="_addGoalViewModel.Category">
+        @foreach (var category in Enum.GetValues(typeof(DateCategory)))
+        {
+            if (category is DateCategory.Daily)
+            {
+                continue;
+            }
+            <option>@CategoryToPersian(category.ToString())</option>
+        }
+    </InputSelect>
+    <button type="submit" class="btn btn-success">ذخیره</button>
+</EditForm>
+
+@code {
+    private readonly AddGoalVm _addGoalViewModel = new();
+
+    private async Task CreateGoal()
+    {
+        var userName = await LocalStorageService.GetItemAsync<string>("userName");
+        await GoalService.AddGoalAsync(userName, _addGoalViewModel);
+        NavigationManager.NavigateTo("/ShowGoals");
+    }
+
+    private string CategoryToPersian(string category)
+    {
+        return category switch
+        {
+            "Daily" => "روزانه",
+            "Weekly" => "هفتگی",
+            "Monthly" => "ماهانه",
+            "Seasonly" => "فصلی",
+            "Yearly" => "سالانه",
+            "Decadly" => "بلند مدت",
+            "" => throw new NullReferenceException($"Category is empty. Category: {category}"),
+            _ => throw new NullReferenceException($"Category is empty. Category: {category}")
+            };
+    }
+
+}

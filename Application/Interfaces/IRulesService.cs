@@ -6,6 +6,6 @@ namespace Application.Interfaces
 {
     public interface IRulesService
     {
-        Task<List<ShowRulesViewModel>> GetRulesAsync(string userName);
+        Task<List<ShowRulesVm>> GetRulesAsync(string userName);
     }
 }

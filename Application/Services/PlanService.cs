@@ -20,13 +20,13 @@ namespace Application.Services
             _scheduleDbContext = scheduleDbContext;
         }
 
-        public async Task<List<ShowPlanViewModel>> GetPlansAsync(string userName)
+        public async Task<List<ShowPlanVm>> GetPlansAsync(string userName)
         {
             var scheduleTasks = await GetScheduleTasksAsync(userName);
             var today = DateTime.Today;
 
             var model = scheduleTasks.Select(n => 
-                new ShowPlanViewModel()
+                new ShowPlanVm()
                 {
                     Done = n.IsDone == GoalStatus.Done,
                     Task = n.Text,
@@ -37,11 +37,11 @@ namespace Application.Services
             return model;
         }
 
-        public async Task<List<ShowWeeklyPlanViewModel>> GetWeeklyPlansAsync(string userName)
+        public async Task<List<ShowWeeklyPlanVm>> GetWeeklyPlansAsync(string userName)
         {
             var user = await GetWeeklyScheduleByUserNameAsync(userName);
 
-            var model = user.ScheduleTasks.Select(p => new ShowWeeklyPlanViewModel()
+            var model = user.ScheduleTasks.Select(p => new ShowWeeklyPlanVm()
             {
                 PlanId = p.Id,
                 PlanName = p.Text,

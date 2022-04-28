@@ -14,7 +14,7 @@ namespace Application.Services
             _scheduleDbContext = scheduleDbContext;
         }
 
-        public async Task<List<ShowRulesViewModel>> GetRulesAsync(string userName)
+        public async Task<List<ShowRulesVm>> GetRulesAsync(string userName)
         {
             return null;
         }

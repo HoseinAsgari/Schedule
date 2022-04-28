@@ -2,34 +2,58 @@
 
 @inject ILocalStorageService LocalStorageService
 @inject IAccountService AccountService
+@inject NavigationManager NavigationManager
 
-<div class="d-flex justify-content-center">
-    <EditForm Model="@logInViewModel" OnValidSubmit="LogIn">
+<div class="d-flex justify-content-center form-border mt-5">
+    <EditForm class="row align-self-center" Model="@_logInViewModel" OnValidSubmit="LogIn">
+        <h3 class="text-center">ورود به سایت</h3>
+        <hr/>
+        @if (DataNotCorrect)
+        {
+            <div class="alert alert-danger">
+                نام یا رمز عبور اشتباه است!!!
+            </div>
+        }
         <DataAnnotationsValidator/>
         <ValidationSummary/>
+        <ul>
+            <ol class="text-center">
+                <b class="m-3">نام کاربری:</b>
+                <InputText class="m-3" @bind-Value="_logInViewModel.UserName"/>
+            </ol>
+            <ol class="text-center">
+                <b class="m-3">رمز عبور:</b>
+                <InputText type="password" class="m-3" @bind-Value="_logInViewModel.Password"/>
+            </ol>
+        </ul>
 
-        <b>نام کاربری:</b>
-        <InputText @bind-value="logInViewModel.UserName"/>
-
-        <hr>
-
-        <b>رمز عبور:</b>
-        <InputText @bind-value="logInViewModel.Password"/>
-
-        <button type="submit" class="btn btn-warning">ورود</button>
+        <div class="row">
+            <div class="col-6 text-center">
+                <button type="submit" class="btn btn-success m-2">ورود</button>
+            </div>
+            <div class="col-6 text-center">
+                <a href="/SignIn" class="btn btn-primary m-2">ثبت نام</a>
+            </div>
+        </div>
     </EditForm>
     <hr>
-    <a href="/SignIn" class="btn btn-primary">ثبت نام</a>
 </div>
 
 @code {
-    private LogInViewModel logInViewModel = new();
+    private LogInVm _logInViewModel = new();
+    private bool DataNotCorrect;
 
     async Task LogIn()
     {
-        if (await AccountService.IsPasswordAndUserNameExists(logInViewModel))
+        var userExist = await AccountService.IsPasswordAndUserNameExists(_logInViewModel);
+        if (userExist)
         {
-            await LocalStorageService.SetItemAsync("userName", logInViewModel.UserName);
+            await LocalStorageService.SetItemAsync("userName", _logInViewModel.UserName);
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            DataNotCorrect = true;
         }
     }
 
