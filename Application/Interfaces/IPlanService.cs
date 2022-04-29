@@ -7,7 +7,7 @@ namespace Application.Interfaces
 {
     public interface IPlanService
     {
-        Task<List<ShowPlanVm>> GetPlansAsync(string userName);
-        Task<List<ShowWeeklyPlanVm>> GetWeeklyPlansAsync(string userName);
+        Task<List<ShowPlanVm>> GetPlansAsync();
+        Task<List<ShowWeeklyPlanVm>> GetWeeklyPlanAsync();
     }
 }

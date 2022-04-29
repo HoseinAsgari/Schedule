@@ -1,9 +1,8 @@
 @page "/AddGoal"
 @using Domain.Enums
 @inject IGoalService GoalService
-@inject ILocalStorageService LocalStorageService
 @inject NavigationManager NavigationManager
-
+e
 <h3 class="mt-5">اضافه کردن هدف</h3>
 <hr/>
 <EditForm Model="_addGoalViewModel" OnValidSubmit="CreateGoal">
@@ -28,8 +27,7 @@
 
     private async Task CreateGoal()
     {
-        var userName = await LocalStorageService.GetItemAsync<string>("userName");
-        await GoalService.AddGoalAsync(userName, _addGoalViewModel);
+        await GoalService.AddGoalAsync(_addGoalViewModel);
         NavigationManager.NavigateTo("/ShowGoals");
     }
 

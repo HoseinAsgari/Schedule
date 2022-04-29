@@ -8,4 +8,5 @@ public class ShowGoalsVm
     public string Title { get; set; }
     public string DateAdded { get; set; }
     public string GoalStatus { get; set; }
+    public bool Finished { get; set; }
 }

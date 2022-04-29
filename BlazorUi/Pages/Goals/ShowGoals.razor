@@ -1,46 +1,65 @@
 @page "/ShowGoals"
 @inject IGoalService GoalService
-@inject ILocalStorageService LocalStorageService
 
-@if (ShowGoalsViewModel is not null && ShowGoalsViewModel.Count is not 0)
-{
-    <table>
-        <thead>
-        <tr>
-            <td>هدف</td>
-            <td>وضعیت هدف</td>
-            <td>تاریخ وضع</td>
-            <td>امکانات</td>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var goal in ShowGoalsViewModel)
-        {
+<div class="mt-5">
+    @if (GoalsVmCount != 0)
+    {
+        <table class="table table-bordered table-light">
+            <thead>
             <tr>
-                <td>@goal.Title</td>
-                <td>@goal.GoalStatus</td>
-                <td>@goal.DateAdded</td>
-                <td>
-                    <button class="btn-danger bi bi-x-lg"></button>
-                </td>
+                <td>هدف</td>
+                <td>وضعیت هدف</td>
+                <td>تاریخ وضع</td>
+                <td>امکانات</td>
             </tr>
-        }
-        </tbody>
-    </table>
-}
-else
-{
-    <h1 class="mt-3">شما هدفی تعیین نکردید!!!</h1>
-}
+            </thead>
+            <tbody>
+            @foreach (var goal in ShowGoalsViewModel)
+            {
+                <tr>
+                    <td>@goal.Title</td>
+                    <td>@goal.GoalStatus</td>
+                    <td>@goal.DateAdded</td>
+                    <td>
+                        <button @onclick="GoalStarted" @* inject id to functions *@ class="btn btn-primary">شروع</button>
+                        <button @onclick="GoalFinished" class="btn btn-success">اتمام</button>
+                        <button @onclick="GoalCanceled" class="btn btn-danger">لغو</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h1>لطفا صبر کنید...</h1>
+    }
+</div>
 <hr/>
 <a href="/AddGoal" class="btn btn-success">اضافه کردن هدف</a>
 
 @code {
+    private int GoalsVmCount { get; set; }
     private List<ShowGoalsVm> ShowGoalsViewModel { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRun)
+    protected override async Task OnInitializedAsync()
     {
-        var userName = await LocalStorageService.GetItemAsync<string>("userName");
-        ShowGoalsViewModel = await GoalService.GetUserGoalsAsync(userName);
+        ShowGoalsViewModel = await GoalService.GetUserGoalsAsync();
+        GoalsVmCount = ShowGoalsViewModel.Count;
+    }
+
+    private Task GoalStarted()
+    {
+        var goalId = ShowGoalsViewModel
+    }
+
+    private Task GoalCanceled()
+    {
+        
+    }
+
+    private Task GoalFinished()
+    {
+        
     }
 }

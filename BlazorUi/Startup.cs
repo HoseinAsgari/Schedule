@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Persistence.Contexts;
 using Blazored.LocalStorage;
 using Application;
+using Application.Helpers.IdentityHelper;
+using BlazorUi.Services;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +31,8 @@ namespace BlazorUi
             
             services.AddApplication();
 
+            services.AddScoped<IUserIdentityService, UserIdentityService>();
+            
             services.AddDbContext<ScheduleDbContext>(opts =>
             {
                 opts.UseSqlServer(Configuration.GetConnectionString("ScheduleDbConnection"));

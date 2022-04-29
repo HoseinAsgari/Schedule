@@ -18,7 +18,7 @@ namespace Application.Services
 
         public async Task<bool> IsPasswordAndUserNameExists(LogInVm logInViewModel)
         {
-            var hashedPassword = HashStringHelper.EncodePasswordMd5(logInViewModel.Password);
+            var hashedPassword = HashStringHelper.EncodeSha256(logInViewModel.Password);
             var userExist = await _context.Users.AnyAsync(user => user.Name == logInViewModel.UserName && user.Password == hashedPassword);
             return userExist;
         }
@@ -31,7 +31,7 @@ namespace Application.Services
 
         public async Task RegisterAccount(SignInVm signInViewModel)
         {
-            var hashedPassword = HashStringHelper.EncodePasswordMd5(signInViewModel.Password);
+            var hashedPassword = HashStringHelper.EncodeSha256(signInViewModel.Password);
             User user = new()
             {
                 Name = signInViewModel.UserName,

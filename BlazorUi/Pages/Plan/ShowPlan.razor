@@ -1,6 +1,5 @@
 @page "/ShowPlan"
 @inject IPlanService PlanService
-@inject ILocalStorageService LocalStorage
 
 <h1 class="mt-3">نمایش برنامه ریزی</h1>
 <hr>
@@ -37,7 +36,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var userName = await LocalStorage.GetItemAsync<string>("userName");
-        ShowPlanViewModel = await PlanService.GetPlansAsync(userName);
+        ShowPlanViewModel = await PlanService.GetPlansAsync();
     }
 }

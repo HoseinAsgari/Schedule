@@ -9,7 +9,7 @@ namespace Application
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IPlanService, PlanService>();
-            services.AddScoped<IRulesService, RulesService>();
+            services.AddScoped<IRuleService, RuleService>();
             services.AddScoped<IGoalService, GoalService>();
             services.AddScoped<IAccountService, AccountService>();
         }

@@ -1,23 +1,23 @@
-using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Helpers.SecurityHelper
+namespace Application.Helpers.SecurityHelper;
+
+public static class HashStringHelper
 {
-    public class HashStringHelper
+    public static string EncodeSha256(string pass)
     {
-        public static string EncodePasswordMd5(string pass) //Encrypt using MD5   
+        // Create a SHA256   
+        using var sha256Hash = SHA256.Create();
+        // ComputeHash - returns byte array  
+        byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(pass));  
+  
+        // Convert byte array to a string   
+        var builder = new StringBuilder();  
+        foreach (var t in bytes)
         {
-            byte[] originalBytes;
-            byte[] encodedBytes;
-            MD5 md5;
-            //Instantiate MD5CryptoServiceProvider, get bytes for original password and compute hash (encoded password)   
-            md5 = new MD5CryptoServiceProvider();
-            originalBytes = Encoding.Default.GetBytes(pass);
-            encodedBytes = md5.ComputeHash(originalBytes);
-            //Convert encoded bytes back to a 'readable' string   
-            return BitConverter.ToString(encodedBytes);
-        }
+            builder.Append(t.ToString("x2"));
+        }  
+        return builder.ToString();
     }
 }

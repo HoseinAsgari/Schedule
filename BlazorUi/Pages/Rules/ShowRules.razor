@@ -1,6 +1,5 @@
 @page "/ShowRules"
-@inject IRulesService RulesService
-@inject ILocalStorageService LocalStorageService
+@inject IRuleService RulesService
 
 @if (ShowRulesViewModel is not null)
 {
@@ -44,7 +43,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var userName = await LocalStorageService.GetItemAsync<string>("userName");
-        ShowRulesViewModel = await RulesService.GetRulesAsync(userName);
+        ShowRulesViewModel = await RulesService.GetRulesAsync();
     }
 }

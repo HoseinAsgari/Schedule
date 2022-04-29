@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using Application.Helpers.CalendarHelper;
+using Application.Helpers.IdentityHelper;
 using Domain.Entities;
 using Domain.Enums;
 
@@ -14,15 +15,17 @@ namespace Application.Services
 {
     public class PlanService : IPlanService
     {
-        ScheduleDbContext _scheduleDbContext;
-        public PlanService(ScheduleDbContext scheduleDbContext)
+        private readonly ScheduleDbContext _scheduleDbContext;
+        private readonly IUserIdentityService _userIdentityService;
+        public PlanService(ScheduleDbContext scheduleDbContext, IUserIdentityService userIdentityService)
         {
             _scheduleDbContext = scheduleDbContext;
+            _userIdentityService = userIdentityService;
         }
 
-        public async Task<List<ShowPlanVm>> GetPlansAsync(string userName)
+        public async Task<List<ShowPlanVm>> GetPlansAsync()
         {
-            var scheduleTasks = await GetScheduleTasksAsync(userName);
+            var scheduleTasks = await GetScheduleTasksAsync();
             var today = DateTime.Today;
 
             var model = scheduleTasks.Select(n => 
@@ -30,16 +33,16 @@ namespace Application.Services
                 {
                     Done = n.IsDone == GoalStatus.Done,
                     Task = n.Text,
-                    Time = ShamsiCalendarHelper.ToShamsi(today.AddHours(0.5 * n.Index))
+                    Time = today.AddHours(0.5 * n.Index).ToShamsi()
                 }
             ).ToList();
 
             return model;
         }
 
-        public async Task<List<ShowWeeklyPlanVm>> GetWeeklyPlansAsync(string userName)
+        public async Task<List<ShowWeeklyPlanVm>> GetWeeklyPlanAsync()
         {
-            var user = await GetWeeklyScheduleByUserNameAsync(userName);
+            var user = await GetWeeklyScheduleByUserNameAsync();
 
             var model = user.ScheduleTasks.Select(p => new ShowWeeklyPlanVm()
             {
@@ -53,25 +56,27 @@ namespace Application.Services
 
 
 
-        private async Task<List<ScheduleTask>> GetScheduleTasksAsync(string userName)
+        private async Task<List<ScheduleTask>> GetScheduleTasksAsync()
         {
-            var user = await GetUserByUserNameAsync(userName);
+            var user = await GetUserByUserNameAsync();
             var scheduleTasks = user.ScheduleTasks.ToList();
             
             return scheduleTasks;
         }
 
-        private async Task<WeeklySchedule> GetWeeklyScheduleByUserNameAsync(string userName)
+        private async Task<WeeklySchedule> GetWeeklyScheduleByUserNameAsync()
         {
+            var userName = await _userIdentityService.GetUserName();
             var weeklySchedule = await _scheduleDbContext.WeeklySchedules
                 .SingleAsync(p => p.User.Name == userName);
 
             return weeklySchedule;
         }
 
-        private async Task<User> GetUserByUserNameAsync(string UserName)
+        private async Task<User> GetUserByUserNameAsync()
         {
-            var user = await _scheduleDbContext.Users.SingleAsync(user => user.Name == UserName);
+            var userName = await _userIdentityService.GetUserName();
+            var user = await _scheduleDbContext.Users.SingleAsync(user => user.Name == userName);
 
             return user;
         }
