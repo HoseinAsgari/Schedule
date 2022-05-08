@@ -38,6 +38,18 @@ namespace Application.Services
             return model;
         }
 
+        public async Task AddRuleAsync(AddRuleDto addRuleDto)
+        {
+            var user = await GetUserAsync();
+            var rule = new Rule
+            {
+                Text = addRuleDto.Text,
+                UserId = user.Id
+            };
+            await _scheduleDbContext.Rules.AddAsync(rule);
+            await _scheduleDbContext.SaveChangesAsync();
+        }
+
         private async Task<User> GetUserAsync()
         {
             var userName = await _userIdentityService.GetUserName();

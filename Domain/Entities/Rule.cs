@@ -13,6 +13,7 @@ namespace Domain.Entities
         public string Text { get; set; }
         
         public User User { get; set; }
+        public int UserId { get; set; }
         public ICollection<RuleDivorce> RuleDivorces { get; set; }
     }
 }

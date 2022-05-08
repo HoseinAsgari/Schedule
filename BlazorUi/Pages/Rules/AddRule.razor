@@ -1,0 +1,30 @@
+@page "/AddRule"
+@inject IRuleService RuleService
+@inject NavigationManager NavigationManager
+
+<h3>وضع قانون جدید</h3>
+<hr/>
+<EditForm Model="_addRuleDto" OnValidSubmit="AddNewRule">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <ul>
+        <ol class="text-center">
+            <b>قانون:</b>
+            <InputText @bind-Value="_addRuleDto.Text"></InputText>
+        </ol>
+        <ol>
+            <button type="submit" class="btn btn-success">ذخیره</button>
+        </ol>
+    </ul>
+    
+</EditForm>
+
+@code {
+    private readonly AddRuleDto _addRuleDto = new();
+
+    private async Task AddNewRule()
+    {
+        await RuleService.AddRuleAsync(_addRuleDto);
+        NavigationManager.NavigateTo("/ShowRules");
+    }
+}

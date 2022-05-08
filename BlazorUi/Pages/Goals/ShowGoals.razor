@@ -1,4 +1,5 @@
 @page "/ShowGoals"
+@inject NavigationManager NavigationManager
 @inject IGoalService GoalService
 
 <div class="mt-5">
@@ -21,9 +22,27 @@
                     <td>@goal.GoalStatus</td>
                     <td>@goal.DateAdded</td>
                     <td>
-                        <button @onclick="GoalStarted" @* inject id to functions *@ class="btn btn-primary">شروع</button>
-                        <button @onclick="GoalFinished" class="btn btn-success">اتمام</button>
-                        <button @onclick="GoalCanceled" class="btn btn-danger">لغو</button>
+                        @switch (goal.GoalStatus)
+                        {
+                            case "در حال انجام":
+                                <input class="form-check-input" type="checkbox" @onclick="@(() => GoalFinished(goal.Id))"/>
+                                <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
+                                break;
+
+                            case "انجام شده":
+                                <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled"/>
+                                <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
+                                break;
+
+                            case "شروع نشده":
+                                <button class="btn btn-warning" @onclick="@(() => GoalStarted(goal.Id))">شروع به انجام</button>
+                                <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
+                                break;
+
+                            case "لغو شده":
+                                <span class="text-black-50">هدف لغو شده</span>
+                                break;
+                        }
                     </td>
                 </tr>
             }
@@ -48,18 +67,19 @@
         GoalsVmCount = ShowGoalsViewModel.Count;
     }
 
-    private Task GoalStarted()
+    private async Task GoalStarted(int id)
     {
-        var goalId = ShowGoalsViewModel
+        await GoalService.GoalStartedAsync(id);
     }
 
-    private Task GoalCanceled()
+    private async Task GoalCanceled(int id)
     {
-        
+        await GoalService.GoalCanceledAsync(id);
     }
 
-    private Task GoalFinished()
+    private async Task GoalFinished(int id)
     {
-        
+        await GoalService.GoalFinishedAsync(id);
     }
+
 }

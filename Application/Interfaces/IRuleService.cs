@@ -7,5 +7,6 @@ namespace Application.Interfaces
     public interface IRuleService
     {
         Task<List<ShowRulesVm>> GetRulesAsync();
+        Task AddRuleAsync(AddRuleDto addRuleDto);
     }
 }

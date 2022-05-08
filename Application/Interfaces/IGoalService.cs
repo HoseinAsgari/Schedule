@@ -8,5 +8,8 @@ namespace Application.Interfaces
     {
         Task<List<ShowGoalsVm>> GetUserGoalsAsync();
         Task AddGoalAsync(AddGoalVm addGoalViewModel);
+        Task GoalStartedAsync(int id);
+        Task GoalCanceledAsync(int id);
+        Task GoalFinishedAsync(int id);
     }
 }

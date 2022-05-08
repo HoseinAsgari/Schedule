@@ -30,13 +30,13 @@ public class GoalService : IGoalService
         var model = await _scheduleDbContext.Goals
             .Where(goal => goal.User == user && goal.DateCategory != DateCategory.Daily)
             .Select(goal => new ShowGoalsVm
-                {
-                    Id = goal.Id,
-                    Title = goal.Title,
-                    DateAdded = goal.DateAdded.ToShamsi(),
-                    GoalStatus = GoalStatusToPersian(goal.GoalStatus),
-                    Finished = goal.GoalStatus != GoalStatus.IsDoing && goal.GoalStatus != GoalStatus.NotStarted
-                })
+            {
+                Id = goal.Id,
+                Title = goal.Title,
+                DateAdded = goal.DateAdded.ToShamsi(),
+                GoalStatus = GoalStatusToPersian(goal.GoalStatus),
+                Finished = goal.GoalStatus != GoalStatus.IsDoing && goal.GoalStatus != GoalStatus.NotStarted
+            })
             .ToListAsync();
         return model;
     }
@@ -47,8 +47,8 @@ public class GoalService : IGoalService
         {
             GoalStatus.Canceled => "لغو شده",
             GoalStatus.NotStarted => "شروع نشده",
-            GoalStatus.Done => "انچام شده",
-            GoalStatus.IsDoing => "در حال انچام",
+            GoalStatus.Done => "انجام شده",
+            GoalStatus.IsDoing => "در حال انجام",
             _ => throw new Exception("goal status no exist")
         };
     }
@@ -67,8 +67,32 @@ public class GoalService : IGoalService
         await _scheduleDbContext.Goals.AddAsync(goal);
         await _scheduleDbContext.SaveChangesAsync();
     }
-    
-    private DateCategory PersianToCategory(string persianCategory)
+
+    public async Task GoalStartedAsync(int id)
+    {
+        var goal = await GetGoalByIdAsync(id);
+        goal.GoalStatus = GoalStatus.IsDoing;
+        _scheduleDbContext.Goals.Update(goal);
+        await _scheduleDbContext.SaveChangesAsync();
+    }
+
+    public async Task GoalCanceledAsync(int id)
+    {
+        var goal = await GetGoalByIdAsync(id);
+        goal.GoalStatus = GoalStatus.Canceled;
+        _scheduleDbContext.Goals.Update(goal);
+        await _scheduleDbContext.SaveChangesAsync();
+    }
+
+    public async Task GoalFinishedAsync(int id)
+    {
+        var goal = await GetGoalByIdAsync(id);
+        goal.GoalStatus = GoalStatus.Done;
+        _scheduleDbContext.Goals.Update(goal);
+        await _scheduleDbContext.SaveChangesAsync();
+    }
+
+    private static DateCategory PersianToCategory(string persianCategory)
     {
         return persianCategory switch
         {
@@ -88,5 +112,11 @@ public class GoalService : IGoalService
         var userName = await _userIdentityService.GetUserName();
         var user = await _scheduleDbContext.Users.SingleAsync(user => user.Name == userName);
         return user;
+    }
+
+    private async Task<Goal> GetGoalByIdAsync(int id)
+    {
+        var goal = await _scheduleDbContext.Goals.FindAsync(id);
+        return goal;
     }
 }
