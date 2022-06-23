@@ -6,7 +6,7 @@ namespace Application.Interfaces
 {
     public interface IGoalService
     {
-        Task<List<ShowGoalsVm>> GetUserGoalsAsync();
+        Task<List<ShowGoalsVm>> GetUserGoalsAsync(bool showCanceledGoals);
         Task AddGoalAsync(AddGoalVm addGoalViewModel);
         Task GoalStartedAsync(int id);
         Task GoalCanceledAsync(int id);

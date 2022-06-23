@@ -1,69 +1,87 @@
 @page "/ShowGoals"
-@inject NavigationManager NavigationManager
 @inject IGoalService GoalService
 
 <div class="mt-5">
-    @if (GoalsVmCount != 0)
-    {
-        <table class="table table-bordered table-light">
-            <thead>
-            <tr>
-                <td>هدف</td>
-                <td>وضعیت هدف</td>
-                <td>تاریخ وضع</td>
-                <td>امکانات</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var goal in ShowGoalsViewModel)
-            {
+    <div class="mb-3">
+        <b>نشان دادن لغو شده ها: </b><input @bind="ShowCanceledGoals" type="checkbox" class="form-check-input"/>
+    </div>
+    <div @bind="ShowGoalsViewModel">
+        @if (GoalsVmCount != 0)
+        {
+            <table class="table table-bordered table-light">
+                <thead>
                 <tr>
-                    <td>@goal.Title</td>
-                    <td>@goal.GoalStatus</td>
-                    <td>@goal.DateAdded</td>
-                    <td>
-                        @switch (goal.GoalStatus)
-                        {
-                            case "در حال انجام":
-                                <input class="form-check-input" type="checkbox" @onclick="@(() => GoalFinished(goal.Id))"/>
-                                <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
-                                break;
-
-                            case "انجام شده":
-                                <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled"/>
-                                <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
-                                break;
-
-                            case "شروع نشده":
-                                <button class="btn btn-warning" @onclick="@(() => GoalStarted(goal.Id))">شروع به انجام</button>
-                                <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
-                                break;
-
-                            case "لغو شده":
-                                <span class="text-black-50">هدف لغو شده</span>
-                                break;
-                        }
-                    </td>
+                    <td>هدف</td>
+                    <td>وضعیت هدف</td>
+                    <td>تاریخ وضع</td>
+                    <td>امکانات</td>
                 </tr>
-            }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <h1>لطفا صبر کنید...</h1>
-    }
+                </thead>
+                <tbody>
+                @foreach (var goal in ShowGoalsViewModel)
+                {
+                    <tr>
+                        <td>@goal.Title</td>
+                        <td>@goal.GoalStatus</td>
+                        <td>@goal.DateAdded</td>
+                        <td>
+                            @switch (goal.GoalStatus)
+                            {
+                                case "در حال انجام":
+                                    <input class="form-check-input" type="checkbox" @onclick="@(() => GoalFinished(goal.Id))"/>
+                                    <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
+                                    break;
+
+                                case "انجام شده":
+                                    <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled"/>
+                                    <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
+                                    break;
+
+                                case "شروع نشده":
+                                    <button class="btn btn-warning" @onclick="@(() => GoalStarted(goal.Id))">شروع به انجام</button>
+                                    <button @onclick="() => GoalCanceled(goal.Id)" class="ms-4 btn btn-outline-danger">لغو</button>
+                                    break;
+
+                                case "لغو شده":
+                                    <span class="text-black-50">هدف لغو شده</span>
+                                    break;
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h1>لطفا صبر کنید...</h1>
+        }
+    </div>
 </div>
 <hr/>
 <a href="/AddGoal" class="btn btn-success">اضافه کردن هدف</a>
 
 @code {
     private int GoalsVmCount { get; set; }
+
+    private bool _showCanceledGoals;
+
+    [Parameter]
+    public bool ShowCanceledGoals
+    {
+        get => _showCanceledGoals;
+        set
+        {
+            _showCanceledGoals = value;
+            ShowOrNotShowCanceledGoals(value);
+        }
+    }
+
     private List<ShowGoalsVm> ShowGoalsViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        ShowGoalsViewModel = await GoalService.GetUserGoalsAsync();
+        ShowGoalsViewModel = await GoalService.GetUserGoalsAsync(false);
         GoalsVmCount = ShowGoalsViewModel.Count;
     }
 
@@ -80,6 +98,11 @@
     private async Task GoalFinished(int id)
     {
         await GoalService.GoalFinishedAsync(id);
+    }
+
+    private void ShowOrNotShowCanceledGoals(bool showStatus)
+    {
+        GoalService.GetUserGoalsAsync(showStatus);
     }
 
 }

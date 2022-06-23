@@ -24,11 +24,12 @@ public class GoalService : IGoalService
         _userIdentityService = userIdentityService;
     }
 
-    public async Task<List<ShowGoalsVm>> GetUserGoalsAsync()
+    public async Task<List<ShowGoalsVm>> GetUserGoalsAsync(bool showCanceledGoals)
     {
         var user = await GetUserByUserNameAsync();
         var model = await _scheduleDbContext.Goals
-            .Where(goal => goal.User == user && goal.DateCategory != DateCategory.Daily)
+            .Where(goal => goal.UserId == user.Id && goal.DateCategory != DateCategory.Daily)
+            .Where(goal => showCanceledGoals || (!showCanceledGoals && goal.GoalStatus != GoalStatus.Canceled))
             .Select(goal => new ShowGoalsVm
             {
                 Id = goal.Id,
